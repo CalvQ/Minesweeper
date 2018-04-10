@@ -1,10 +1,13 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -16,6 +19,9 @@ public class GameDriver {
     private HashSet<Point> clicked = new HashSet<>();
     private boolean firstClick = true;
     private boolean gameOver;
+    private int flags=100;
+    private int time=0;
+    private Timer t;
 
     public static void main(String[] args){
         new GameDriver().start();
@@ -38,14 +44,13 @@ public class GameDriver {
                 drawGame(g);
             }
         };
-
+        t = new Timer(1000, e -> tick());
         panel.setPreferredSize(new Dimension(700, 500));
         panel.setBackground(Color.LIGHT_GRAY);
         setPanel();
         frame.add(panel);
         frame.pack();
         panel.requestFocusInWindow();
-
     }
 
     private void genImages() {
@@ -65,6 +70,11 @@ public class GameDriver {
         }catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    private void tick(){
+        time++;
+        panel.repaint();
     }
 
     private void genTiles() {
@@ -139,15 +149,65 @@ public class GameDriver {
         g.fillRect(panel.getWidth() - ((panel.getWidth()-600)/2)-70, 13, 70, 30);
 
         try{
+            Image pic;
             if(gameOver){
-                Image pic = ImageIO.read(new File("src/pics/sad.gif"));
-                g.drawImage(pic, (panel.getWidth() / 2) - 15, 13, 30, 30, null);
+                pic = ImageIO.read(new File("src/pics/sad.gif"));
             }else {
-                Image pic = ImageIO.read(new File("src/pics/smile.gif"));
-                g.drawImage(pic, (panel.getWidth() / 2) - 15, 13, 30, 30, null);
+                pic = ImageIO.read(new File("src/pics/smile.gif"));
             }
+            g.drawImage(pic, (panel.getWidth() / 2) - 15, 13, 30, 30, null);
         }catch (IOException e){
             e.printStackTrace();
+        }
+
+        drawValue(new Point((panel.getWidth()-600)/2,13), g, flags);
+        drawValue(new Point(panel.getWidth() - ((panel.getWidth()-600)/2)-70, 13), g, time);
+    }
+
+    private void drawValue(Point p, Graphics g, int num){
+        DrawNums drawNums = new DrawNums(g);
+        char[] chars = (num+"").toCharArray();
+        ArrayList<Character> draw = new ArrayList<>();
+        for(int i=3-chars.length; i>0; i--){
+            draw.add('0');
+        }
+        for(char c:chars){
+            draw.add(c);
+        }
+
+        for(int i=0; i<draw.size(); i++){
+            switch (draw.get(i)){
+                case '0':
+                    drawNums.drawZero(new Point(p.getX()+(5 * (i+1)) + (10 * i), p.getY()));
+                    break;
+                case '1':
+                    drawNums.drawOne(new Point(p.getX()+(5 * (i+1)) + (10 * i), p.getY()));
+                    break;
+                case '2':
+                    drawNums.drawTwo(new Point(p.getX()+(5 * (i+1)) + (10 * i), p.getY()));
+                    break;
+                case '3':
+                    drawNums.drawThree(new Point(p.getX()+(5 * (i+1)) + (10 * i), p.getY()));
+                    break;
+                case '4':
+                    drawNums.drawFour(new Point(p.getX()+(5 * (i+1)) + (10 * i), p.getY()));
+                    break;
+                case '5':
+                    drawNums.drawFive(new Point(p.getX()+(5 * (i+1)) + (10 * i), p.getY()));
+                    break;
+                case '6':
+                    drawNums.drawSix(new Point(p.getX()+(5 * (i+1)) + (10 * i), p.getY()));
+                    break;
+                case '7':
+                    drawNums.drawSeven(new Point(p.getX()+(5 * (i+1)) + (10 * i), p.getY()));
+                    break;
+                case '8':
+                    drawNums.drawEight(new Point(p.getX()+(5 * (i+1)) + (10 * i), p.getY()));
+                    break;
+                case '9':
+                    drawNums.drawNine(new Point(p.getX()+(5 * (i+1)) + (10 * i), p.getY()));
+                    break;
+            }
         }
     }
 
@@ -165,8 +225,13 @@ public class GameDriver {
                             gameOver();
                         }
                     }
-                    if(e.getButton()==3){
+                    if(e.getButton()==3 && flags>0){
                         board[col][row].flag();
+                        if(board[col][row].isFlagged()){
+                            flags--;
+                        }else{
+                            flags++;
+                        }
                     }
                     panel.repaint();
                 }
@@ -206,6 +271,9 @@ public class GameDriver {
         firstClick=true;
         gameOver = false;
         panel.repaint();
+        flags=100;
+        time=0;
+        t.stop();
     }
 
     private void revealClick(int col, int row){
@@ -214,13 +282,13 @@ public class GameDriver {
                 genTiles();
             }
             firstClick=false;
+            t.start();
             revealClick(col, row);
         }else if(board[col][row].getNum()!=0){
             board[col][row].click();
         }else if(!board[col][row].isFlagged()) {
             if (clicked.add(board[col][row].getLoc())) {
                 board[col][row].click();
-
                 for(int i=-1; i<2; i++){
                     for(int j=-1; j<2; j++){
 
