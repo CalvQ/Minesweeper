@@ -17,6 +17,7 @@ public class GameDriver {
     private HashSet<Point> clicked = new HashSet<>();
     private boolean firstClick = true;
     private boolean gameOver;
+    private boolean victory;
     private int flags=100;
     private int time=0;
     private Timer t;
@@ -31,6 +32,7 @@ public class GameDriver {
         genTiles();
         firstClick=true;
         gameOver = false;
+        victory=false;
 
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -151,6 +153,8 @@ public class GameDriver {
             Image pic;
             if(gameOver){
                 pic = ImageIO.read(new File("src/pics/sad.gif"));
+            }else if(victory) {
+                pic = ImageIO.read(new File("src/pics/cool.gif"));
             }else {
                 pic = ImageIO.read(new File("src/pics/smile.gif"));
             }
@@ -239,6 +243,7 @@ public class GameDriver {
                         e.getY() > 13 && e.getY() < 43){
                     reset();
                 }
+                gameWin();
             }
 
             @Override
@@ -253,6 +258,21 @@ public class GameDriver {
             @Override
             public void mouseExited(MouseEvent e) {}
         });
+    }
+
+    private void gameWin(){
+        boolean out = true;
+        for(Tile[] row:board){
+            for(Tile tile:row){
+                if(tile.isBomb() && !tile.isFlagged()){
+                    out=false;
+                }
+            }
+        }
+        if(out){
+            victory=true;
+            t.stop();
+        }
     }
 
     private void gameOver(){
