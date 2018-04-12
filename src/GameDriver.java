@@ -1,8 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -15,7 +13,7 @@ public class GameDriver {
     private JFrame frame = new JFrame("Minesweeper");
     private JPanel panel;
     private Tile[][] board;
-    private Image[] pics = new Image[12];
+    private Image[] pics = new Image[13];
     private HashSet<Point> clicked = new HashSet<>();
     private boolean firstClick = true;
     private boolean gameOver;
@@ -67,6 +65,7 @@ public class GameDriver {
             pics[9] = ImageIO.read(new File("src/pics/flag.gif"));
             pics[10] = ImageIO.read(new File("src/pics/zero.gif"));
             pics[11] = ImageIO.read(new File("src/pics/bomb.gif"));
+            pics[12] = ImageIO.read(new File("src/pics/redB.gif"));
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -222,6 +221,7 @@ public class GameDriver {
                     if (e.getButton() == 1) {
                         revealClick(col, row);
                         if(board[col][row].isBomb()){
+                            board[col][row].setRedBomb(true);
                             gameOver();
                         }
                     }
@@ -264,6 +264,7 @@ public class GameDriver {
                 }
             }
         }
+        t.stop();
     }
 
     private void reset(){

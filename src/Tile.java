@@ -1,16 +1,17 @@
 import java.awt.*;
 
 public class Tile {
-    private boolean flagged, bomb, clicked;
+    private boolean flagged, bomb, clicked, redBomb;
     private int num;
     private Point loc;
-    private Image one, two, three, four, five, six, seven, eight, block, flag, zero, Bomb;
+    private Image one, two, three, four, five, six, seven, eight, block, flag, zero, Bomb, redB;
 
     Tile(boolean bomb, Point loc, Image[] pics){
         super();
         this.bomb = bomb;
         this.flagged = false;
         this.clicked = false;
+        this.redBomb = false;
         this.loc = loc;
         one = pics[0];
         two = pics[1];
@@ -24,6 +25,7 @@ public class Tile {
         flag = pics[9];
         zero = pics[10];
         Bomb = pics[11];
+        redB = pics[12];
     }
 
     public void click(){
@@ -43,13 +45,18 @@ public class Tile {
     }
     public int getNum(){return num;}
 
+    public void setRedBomb(boolean red){
+        this.redBomb=red;
+    }
     public void setNum(int num){
         this.num = num;
     }
 
     public void draw(Graphics g, int offset){
         if(offset<0) offset = 0;
-        if (flagged) {
+        if(redBomb){
+            g.drawImage(redB, loc.getY()*20+offset, loc.getX()*20+50, 20, 20, null);
+        } else if (flagged) {
             g.drawImage(flag, loc.getY()*20+offset, loc.getX()*20+50, 20, 20, null);
         }else if(!clicked){
             g.drawImage(block, loc.getY()*20+offset, loc.getX()*20+50, 20, 20, null);
