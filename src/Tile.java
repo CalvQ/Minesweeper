@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Tile {
+class Tile {
     private boolean flagged, bomb, clicked, redBomb;
     private int num;
     private Point loc;
@@ -28,31 +28,34 @@ public class Tile {
         redB = pics[12];
     }
 
-    public void click(){
+    void click(){
         if(!flagged) {
             this.clicked = true;
         }
     }
-    public void flag(){
+    void flag(){
         if(!clicked) this.flagged = !flagged;
     }
 
-    public boolean isBomb(){
+    boolean isBomb(){
         return bomb;
     }
-    public boolean isFlagged(){
+    boolean isFlagged(){
         return flagged;
     }
-    public int getNum(){return num;}
+    boolean isNotClicked(){
+        return !clicked;
+    }
+    int getNum(){return num;}
 
-    public void setRedBomb(boolean red){
+    void setRedBomb(boolean red){
         this.redBomb=red;
     }
-    public void setNum(int num){
+    void setNum(int num){
         this.num = num;
     }
 
-    public void draw(Graphics g, int offset){
+    void draw(Graphics g, int offset){
         if(offset<0) offset = 0;
         if(redBomb){
             g.drawImage(redB, loc.getY()*20+offset, loc.getX()*20+50, 20, 20, null);
@@ -95,7 +98,7 @@ public class Tile {
         }
     }
 
-    public Point getLoc(){
+    Point getLoc(){
         return this.loc;
     }
 }

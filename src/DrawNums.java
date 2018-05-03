@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class DrawNums {
+class DrawNums {
     private Graphics g;
 
     DrawNums(Graphics g){
@@ -26,7 +26,7 @@ public class DrawNums {
         g.setColor(temp);
     }
 
-    public void drawZero(Point p){
+    void drawZero(Point p){
         p.setY(p.getY()+4);//always plus four for shifting down
         drawHorizontal(p);
         drawVertical(p);
@@ -35,12 +35,12 @@ public class DrawNums {
         drawVertical(new Point(p.getX()+7, p.getY()));
         drawVertical(new Point(p.getX()+7, p.getY()+10));
     }
-    public void drawOne(Point p){
+    void drawOne(Point p){
         p.setY(p.getY()+4);
         drawVertical(new Point(p.getX()+7, p.getY()));
         drawVertical(new Point(p.getX()+7, p.getY()+10));
     }
-    public void drawTwo(Point p){
+    void drawTwo(Point p){
         p.setY(p.getY()+4);
         drawHorizontal(p);
         drawVertical(new Point(p.getX()+7, p.getY()));
@@ -48,7 +48,7 @@ public class DrawNums {
         drawVertical(new Point(p.getX(), p.getY()+10));
         drawHorizontal(new Point(p.getX(), p.getY()+18));
     }
-    public void drawThree(Point p){
+    void drawThree(Point p){
         p.setY(p.getY()+4);
         drawHorizontal(p);
         drawVertical(new Point(p.getX()+7, p.getY()));
@@ -56,14 +56,14 @@ public class DrawNums {
         drawVertical(new Point(p.getX()+7, p.getY()+10));
         drawHorizontal(new Point(p.getX(), p.getY()+18));
     }
-    public void drawFour(Point p){
+    void drawFour(Point p){
         p.setY(p.getY()+4);
         drawVertical(p);
         drawHorizontal(new Point(p.getX(), p.getY()+9));
         drawVertical(new Point(p.getX()+7, p.getY()));
         drawVertical(new Point(p.getX()+7, p.getY()+10));
     }
-    public void drawFive(Point p){
+    void drawFive(Point p){
         p.setY(p.getY()+4);
         drawHorizontal(p);
         drawVertical(p);
@@ -71,32 +71,32 @@ public class DrawNums {
         drawVertical(new Point(p.getX()+7, p.getY()+10));
         drawHorizontal(new Point(p.getX(), p.getY()+18));
     }
-    public void drawSix(Point p){
-        p.setY(p.getY()+4);
-        drawHorizontal(p);
-        drawVertical(p);
-        drawVertical(new Point(p.getX(), p.getY()+10));
-        drawHorizontal(new Point(p.getX(), p.getY()+18));
-        drawVertical(new Point(p.getX()+7, p.getY()+10));
-        drawHorizontal(new Point(p.getX(), p.getY()+9));
-    }
-    public void drawSeven(Point p){
-        p.setY(p.getY()+4);
-        drawHorizontal(p);
-        drawVertical(new Point(p.getX()+7, p.getY()));
-        drawVertical(new Point(p.getX()+7, p.getY()+10));
-    }
-    public void drawEight(Point p){
+    void drawSix(Point p){
         p.setY(p.getY()+4);
         drawHorizontal(p);
         drawVertical(p);
         drawVertical(new Point(p.getX(), p.getY()+10));
         drawHorizontal(new Point(p.getX(), p.getY()+18));
+        drawVertical(new Point(p.getX()+7, p.getY()+10));
+        drawHorizontal(new Point(p.getX(), p.getY()+9));
+    }
+    void drawSeven(Point p){
+        p.setY(p.getY()+4);
+        drawHorizontal(p);
+        drawVertical(new Point(p.getX()+7, p.getY()));
+        drawVertical(new Point(p.getX()+7, p.getY()+10));
+    }
+    void drawEight(Point p){
+        p.setY(p.getY()+4);
+        drawHorizontal(p);
+        drawVertical(p);
+        drawVertical(new Point(p.getX(), p.getY()+10));
+        drawHorizontal(new Point(p.getX(), p.getY()+18));
         drawVertical(new Point(p.getX()+7, p.getY()));
         drawVertical(new Point(p.getX()+7, p.getY()+10));
         drawHorizontal(new Point(p.getX(), p.getY()+9));
     }
-    public void drawNine(Point p){
+    void drawNine(Point p){
         p.setY(p.getY()+4);
         drawHorizontal(p);
         drawVertical(p);
